@@ -30,48 +30,48 @@ module Gem
   #
   class Tasks
 
-    #
     # The `setup` tasks.
     #
     # @return [OpenStruct]
     #   The collection of `setup` tasks.
-    #
     attr_reader :setup
 
-    #
     # The `build` tasks.
     #
     # @return [OpenStruct]
     #   The collection of `build` tasks.
-    #
     attr_reader :build
 
-    #
     # The `scm` tasks.
     #
     # @return [OpenStruct]
     #   The collection of `scm` tasks.
-    #
     attr_reader :scm
 
-    #
     # The `sign` tasks.
     #
     # @return [OpenStruct]
     #   The collection of `sign` tasks.
-    #
     attr_reader :sign
 
-    # The {Console console} task.
+    # The `console` task.
+    #
+    # @return [Console]
     attr_reader :console
 
-    # The {Install install} task.
+    # The `install` task.
+    #
+    # @return [Install]
     attr_reader :install
 
-    # The {Push push} task.
+    # The `push` task.
+    #
+    # @return [Push]
     attr_reader :push
 
-    # The {Release release} task.
+    # The `release` task.
+    #
+    # @return [Release]
     attr_reader :release
 
     #
