@@ -115,6 +115,17 @@ module Gem
       end
 
       #
+      # The current project.
+      #
+      # @return [Project]
+      #
+      # @since 0.3.0
+      #
+      def self.current
+        directories[Dir.pwd]
+      end
+
+      #
       # Retrieves a gemspec for the project.
       #
       # @param [String] name (@primary_gemspec)

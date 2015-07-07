@@ -128,7 +128,7 @@ module Gem
       scm_options   = options.fetch(:scm,{})
       sign_options  = options.fetch(:sign,{})
 
-      @project = Project.directories[Dir.pwd]
+      @project = Project.current
 
       @setup = OpenStruct.new
       @scm   = OpenStruct.new

@@ -20,7 +20,7 @@ module Gem
       # Initializes the task.
       #
       def initialize
-        @project = Project.directories[Dir.pwd]
+        @project = Project.current
       end
 
       protected
