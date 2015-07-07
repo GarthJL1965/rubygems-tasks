@@ -103,6 +103,18 @@ module Gem
       end
 
       #
+      # Maps project directories to projects.
+      #
+      # @return [Hash{String => Project}]
+      #   Project directories and project objects.
+      #
+      def self.directories
+        @@directories ||= Hash.new do |hash,key|
+          hash[key] = new(key)
+        end
+      end
+
+      #
       # Retrieves a gemspec for the project.
       #
       # @param [String] name (@primary_gemspec)
@@ -119,18 +131,6 @@ module Gem
         end
 
         return @gemspecs[name]
-      end
-
-      #
-      # Maps project directories to projects.
-      #
-      # @return [Hash{String => Project}]
-      #   Project directories and project objects.
-      #
-      def self.directories
-        @@directories ||= Hash.new do |hash,key|
-          hash[key] = new(key)
-        end
       end
 
       #
