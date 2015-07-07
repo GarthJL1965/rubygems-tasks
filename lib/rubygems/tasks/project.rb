@@ -1,3 +1,5 @@
+require 'rubygems/tasks/repository'
+
 require 'set'
 
 module Gem
@@ -6,13 +8,6 @@ module Gem
     # @api semipublic
     #
     class Project
-
-      # Supported SCMs and their control directories.
-      SCM_DIRS = {
-        git: '.git',
-        hg:  '.hg',
-        svn: '.svn'
-      }
 
       # The `pkg/` directory.
       PKG_DIR = 'pkg'
@@ -34,10 +29,13 @@ module Gem
       attr_reader :name
 
       #
-      # @return [Symbol, nil]
-      #   The SCM the project is using.
+      # The repository of the project.
       #
-      attr_reader :scm
+      # @return [Repository]
+      #
+      # @since 0.3.0
+      #
+      attr_reader :repository
 
       #
       # The builds and gemspecs of the project.
@@ -73,11 +71,7 @@ module Gem
         @root = root
         @name = File.basename(@root)
 
-        @scm, _ = SCM_DIRS.find do |scm,dir|
-                    File.directory?(File.join(@root,dir))
-                  end
-
-        @submodules = File.file?(File.join(@root,'.gitmodules'))
+        @repository = Repository.new(@root)
 
         Dir.chdir(@root) do
           @gemspecs = Hash[Dir['*.gemspec'].map { |path|
@@ -126,6 +120,13 @@ module Gem
       end
 
       #
+      # @see {Repository#scm}
+      #
+      def scm
+        @repository.scm
+      end
+
+      #
       # Retrieves a gemspec for the project.
       #
       # @param [String] name (@primary_gemspec)
@@ -142,17 +143,6 @@ module Gem
         end
 
         return @gemspecs[name]
-      end
-
-      #
-      # Specifies whether the repository has git submodules.
-      #
-      # @return [Boolean]
-      #
-      # @since 0.3.0
-      #
-      def has_submodules?
-        @submodules
       end
 
       #

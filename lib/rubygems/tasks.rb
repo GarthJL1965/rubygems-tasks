@@ -136,7 +136,9 @@ module Gem
       @sign  = OpenStruct.new
 
       if setup_options
-        if setup_options.fetch(:submodules) { @project.has_submodules? }
+        if setup_options.fetch(:submodules) {
+          @project.repository.git? && @project.repository.git_submodules?
+        }
           @setup.submodules = Setup::Git::Submodules.new
         end
       end
