@@ -1,6 +1,7 @@
 require 'rubygems/tasks/console'
 require 'rubygems/tasks/build'
 require 'rubygems/tasks/install'
+require 'rubygems/tasks/setup'
 require 'rubygems/tasks/scm'
 require 'rubygems/tasks/push'
 require 'rubygems/tasks/release'
@@ -13,6 +14,7 @@ module Gem
   #
   # Defines basic Rake tasks for managing and releasing projects:
   #
+  # * {Setup::Git::Submodules setup:git:submodules}
   # * {Build::Gem build:gem}
   # * {Build::Tar build:tar}
   # * {Build::Zip build:zip}
@@ -27,6 +29,14 @@ module Gem
   # * {Sign::PGP sign:pgp}
   #
   class Tasks
+
+    #
+    # The `setup` tasks.
+    #
+    # @return [OpenStruct]
+    #   The collection of `setup` tasks.
+    #
+    attr_reader :setup
 
     #
     # The `build` tasks.
@@ -70,6 +80,9 @@ module Gem
     # @param [Hash{Symbol => Hash}] options
     #   Enables or disables individual tasks.
     #
+    # @option options [Hash{Symbol => Boolean}] :setup
+    #   Enables or disables the `setup` tasks.
+    #
     # @option options [Hash{Symbol => Boolean}] :build
     #   Enables or disables the `build` tasks.
     #
@@ -110,13 +123,23 @@ module Gem
     #   end
     #
     def initialize(options={})
+      setup_options = options.fetch(:setup,{})
       build_options = options.fetch(:build,{})
       scm_options   = options.fetch(:scm,{})
       sign_options  = options.fetch(:sign,{})
 
+      @project = Project.directories[Dir.pwd]
+
+      @setup = OpenStruct.new
       @scm   = OpenStruct.new
       @build = OpenStruct.new
       @sign  = OpenStruct.new
+
+      if setup_options
+        if setup_options.fetch(:submodules) { @project.has_submodules? }
+          @setup.submodules = Setup::Git::Submodules.new
+        end
+      end
 
       if build_options
         @build.gem = (Build::Gem.new if build_options.fetch(:gem,true))
