@@ -77,6 +77,8 @@ module Gem
                     File.directory?(File.join(@root,dir))
                   end
 
+        @submodules = File.file?(File.join(@root,'.gitmodules'))
+
         Dir.chdir(@root) do
           @gemspecs = Hash[Dir['*.gemspec'].map { |path|
             [File.basename(path,'.gemspec'), Specification.load(path)]
@@ -129,6 +131,17 @@ module Gem
         @@directories ||= Hash.new do |hash,key|
           hash[key] = new(key)
         end
+      end
+
+      #
+      # Specifies whether the repository has git submodules.
+      #
+      # @return [Boolean]
+      #
+      # @since 0.3.0
+      #
+      def has_submodules?
+        @submodules
       end
 
       #
