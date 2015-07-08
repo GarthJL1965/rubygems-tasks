@@ -1,1 +1,1 @@
-require 'rubygems/tasks/setup/git/submodules'
+require 'rubygems/tasks/setup/submodules'
