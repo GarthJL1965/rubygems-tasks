@@ -40,8 +40,10 @@ module Gem
       # @api semipublic
       #
       def run(command,*arguments)
-        show_command = [command, *arguments].join(' ')
+        command   = command.to_s
+        arguments = arguments.map(&:to_s)
 
+        show_command = [command, *arguments].join(' ')
         debug show_command
 
         unless system(command,*arguments)
