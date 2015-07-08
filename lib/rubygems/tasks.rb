@@ -14,7 +14,7 @@ module Gem
   #
   # Defines basic Rake tasks for managing and releasing projects:
   #
-  # * {Setup::Git::Submodules setup:git:submodules}
+  # * {Setup::Submodules setup:submodules}
   # * {Build::Gem build:gem}
   # * {Build::Tar build:tar}
   # * {Build::Zip build:zip}
@@ -139,7 +139,7 @@ module Gem
         if setup_options.fetch(:submodules) {
           @project.repository.git? && @project.repository.git_submodules?
         }
-          @setup.submodules = Setup::Git::Submodules.new
+          @setup.submodules = Setup::Submodules.new
         end
       end
 
