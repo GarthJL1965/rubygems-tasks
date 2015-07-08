@@ -85,7 +85,7 @@ module Gem
       # @api semipublic
       #
       def bundle(command,*arguments)
-        run 'bundler', command, *arguments
+        run 'bundle', command, *arguments
       end
 
       #
