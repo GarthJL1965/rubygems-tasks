@@ -27,7 +27,7 @@ module Gem
               end
             end
 
-            multi_task "sign:#{name}:#{build}", packages.keys
+            namespace_task "sign:#{name}:#{build}", packages.keys
 
             task "sign:#{name}"  => "sign:#{name}:#{build}"
             task "sign:#{build}" => "sign:#{name}:#{build}"

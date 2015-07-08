@@ -121,19 +121,21 @@ module Gem
       # Defines a task that will invoke one or all of the specifies tasks
       # within the namespace.
       #
-      # @param [String] prefix
+      # @param [String] namespace
       #   The namespace of the sub-tasks to call.
       #
-      # @param [Array<Symbol>] names
+      # @param [Array<#to_s>] tasks
       #   The names of the sub-tasks.
       #
       # @example
-      #   multi_task 'pkg:tar', @project.gemspecs.keys
+      #   namespace_task 'pkg:tar', @project.gemspecs.keys
       #
       # @api semipublic
       #
-      def multi_task(prefix,names)
-        task prefix => names.map { |name| "#{prefix}:#{name}" }
+      # @since 0.3.0
+      #
+      def namespace_task(namespace,tasks)
+        task namespace => tasks.map { |name| "#{namespace}:#{name}" }
       end
 
       #
@@ -145,7 +147,7 @@ module Gem
       # @api semipublic
       #
       def gemspec_tasks(name)
-        multi_task name, @project.gemspecs.keys
+        namespace_task name, @project.gemspecs.keys
       end
 
     end
